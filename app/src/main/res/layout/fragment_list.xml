@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ListFragment">
-
+    tools:context=".presentation.ListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/noteListView"
@@ -33,7 +32,8 @@
         android:clickable="true"
         android:src="@drawable/ic_create"
         android:layout_margin="@dimen/_8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/noteListView"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/todo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
