@@ -1,22 +1,31 @@
-package com.example.memorynotesapp.presentation
+package com.example.memorynotesapp.presentation.ui
 
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import com.example.memorynotesapp.R
 import com.example.core.data.Note
-import com.example.memorynotesapp.framework.NoteViewModel
+import com.example.memorynotesapp.R
+import com.example.memorynotesapp.framework.viewmodel.NoteViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class NoteFragment : Fragment() {
 
-    private lateinit var viewModel: NoteViewModel
+    private val viewModel: NoteViewModel by viewModels()
+
     private var currentNote = Note("", "", 0L,0L)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,8 +36,6 @@ class NoteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this)[NoteViewModel::class.java]
 
         val checkButton = view.findViewById<FloatingActionButton>(R.id.checkButton)
         val contentView = view.findViewById<EditText>(R.id.contentView)
@@ -48,6 +55,24 @@ class NoteFragment : Fragment() {
                 Navigation.findNavController(it).popBackStack()
             }
         }
+        observeViewModel(titleView)
+
     }
 
+    private fun observeViewModel(titleView: View){
+        viewModel.saved.observe(viewLifecycleOwner) {
+            if (it) {
+                Toast.makeText(context, "Done!", Toast.LENGTH_SHORT).show()
+                hideKeyBoard(titleView)
+                Navigation.findNavController(titleView).popBackStack()
+            }else{
+                Toast.makeText(context, "Something went wrong, please try again", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun hideKeyBoard(titleView: View){
+        val imm: InputMethodManager = context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(titleView.windowToken, 0)
+    }
 }

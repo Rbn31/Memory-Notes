@@ -2,19 +2,18 @@ package com.example.memorynotesapp.framework.db
 
 import android.content.Context
 import androidx.room.Database
-import androidx.room.DatabaseConfiguration
-import androidx.room.InvalidationTracker
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteOpenHelper
 
 @Database(entities = [NoteEntity::class], version = 1)
 abstract class DatabaseService: RoomDatabase() {
 
     companion object{
         private const val DATABASE_NAME = "note.db"
+
         private var instance: DatabaseService? = null
-        private fun create (context: Context): DatabaseService =
+
+        private fun create(context: Context): DatabaseService =
             Room.databaseBuilder(context, DatabaseService::class.java, DATABASE_NAME)
                 .fallbackToDestructiveMigration()
                 .build()
@@ -24,5 +23,4 @@ abstract class DatabaseService: RoomDatabase() {
     }
 
     abstract fun noteDao(): NoteDao
-
 }

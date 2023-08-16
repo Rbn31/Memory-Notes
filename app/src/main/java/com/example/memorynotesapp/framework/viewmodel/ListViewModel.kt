@@ -1,4 +1,4 @@
-package com.example.memorynotesapp.framework
+package com.example.memorynotesapp.framework.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -9,12 +9,15 @@ import com.example.core.usecase.AddNote
 import com.example.core.usecase.GetAllNotes
 import com.example.core.usecase.GetNote
 import com.example.core.usecase.RemoveNote
+import com.example.memorynotesapp.framework.RoomNoteDataSource
+import com.example.memorynotesapp.framework.UseCases
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class NoteViewModel(application: Application): AndroidViewModel(application) {
-    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+class ListViewModel(application: Application): AndroidViewModel(application) {
+
+    private val coroutinesScope = CoroutineScope(Dispatchers.IO)
 
     val repository = NoteRepository(RoomNoteDataSource(application))
 
@@ -25,12 +28,12 @@ class NoteViewModel(application: Application): AndroidViewModel(application) {
         RemoveNote(repository)
     )
 
-    val saved = MutableLiveData<Boolean>()
+    val notes = MutableLiveData<List<Note>>()
 
-    fun saveNote(note: Note){
-        coroutineScope.launch {
-            useCases.addNote(note)
-            saved.postValue(true)
+    fun getNotes(){
+        coroutinesScope.launch {
+            val noteList: List<Note> = useCases.getAllNotes()
+            notes.postValue(noteList)
         }
     }
 }

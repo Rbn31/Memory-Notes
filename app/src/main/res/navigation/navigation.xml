@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/noteFragment"
-        android:name="com.example.memorynotesapp.presentation.NoteFragment"
+        android:name="com.example.memorynotesapp.presentation.ui.NoteFragment"
         android:label="fragment_note"
         tools:layout="@layout/fragment_note" >
         <argument
