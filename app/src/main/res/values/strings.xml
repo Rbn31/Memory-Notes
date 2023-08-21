@@ -8,4 +8,5 @@
     <string name="content_">Content</string>
     <string name="title">Title</string>
     <string name="words">Words:</string>
+    <string name="delete_note">Delete note</string>
 </resources>

@@ -4,15 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.ListFragment">
+    tools:context=".presentation.ui.ListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/noteListView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_note"
+        tools:itemCount="2"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <ProgressBar
@@ -34,6 +37,7 @@
         android:layout_margin="@dimen/_8dp"
         app:layout_constraintBottom_toBottomOf="@+id/noteListView"
         app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/todo" />
+        android:contentDescription="@string/todo"
+        android:focusable="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
